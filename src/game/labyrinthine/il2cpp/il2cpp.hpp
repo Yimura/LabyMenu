@@ -1,9 +1,18 @@
 #pragma once
+#include "Il2CppClass.hpp"
+#include "Il2CppType.hpp"
+#include "MethodInfo.hpp"
+#include "VirtualInvokeData.hpp"
 
 namespace YimMenu
 {
-    using Il2CppClass_1 = char[0xB8];
-    using Il2CppClass_2 = char[0x70];
+    using il2cpp_array_size_t = std::uintptr_t;
+    using il2cpp_array_lower_bound_t = std::int32_t;
+    struct Il2CppArrayBounds
+    {
+        il2cpp_array_size_t length;
+        il2cpp_array_lower_bound_t lower_bound;
+    };
 
-    using Il2CppRGCTXData = void*;
+    using Il2CppObject = char[0x10];
 }

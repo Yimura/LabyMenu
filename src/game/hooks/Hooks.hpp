@@ -4,13 +4,20 @@
 namespace YimMenu
 {
 	class Mirror_NetworkManager_o;
+	class Mirror_NetworkConnection_o;
+	struct Mirror_ConnectMessage
+	{
+	};
+	class MethodInfo;
 }
 
 namespace YimMenu::Hooks
 {
 	namespace Labyrinthine
 	{
-		extern void NetworkMgrSetupServer(Mirror_NetworkManager_o* this_, const void* method);
+		extern void NetworkMgrSetupServer(Mirror_NetworkManager_o* this_, const MethodInfo* method);
+		extern void NetworkManager_OnServerConnectInternal(Mirror_NetworkManager_o* this_, Mirror_NetworkConnection_o* conn, Mirror_ConnectMessage connectMsg, const MethodInfo* method);
+		extern void NetworkManager_OnServerDisconnect(Mirror_NetworkManager_o* this_, Mirror_NetworkConnection_o* conn, const MethodInfo* method);
 	}
 
 	namespace SwapChain

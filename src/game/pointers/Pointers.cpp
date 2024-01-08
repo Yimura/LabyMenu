@@ -147,6 +147,36 @@ namespace YimMenu
 			NetworkMgrSetupServer = ptr.Add(1).Rip().As<void*>();
 		});
 
+		constexpr auto networkRoomMgrOnServerConnectInternal = Pattern<"48 8B F9 4C 8B 80 20 04 00 00">("Mirror::NetworkRoomMgr::OnServerConnectInternal");
+		scanner.Add(networkRoomMgrOnServerConnectInternal, [this](PointerCalculator ptr) {
+			NetworkRoomMgrOnServerConnectInternal = ptr.Sub(0xD7).As<void*>();
+		});
+
+		constexpr auto networkRoomMgrOnServerDisconnect = Pattern<"4C 8B 00 4D 85 C0 74 1D">("Mirror::NetworkRoomMgr::OnServerDisconnect");
+		scanner.Add(networkRoomMgrOnServerDisconnect, [this](PointerCalculator ptr) {
+			NetworkRoomMgrOnServerDisconnect = ptr.Sub(0xA0).As<void*>();
+		});
+
+		constexpr auto gameManagerStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 8B 9E 18 01 00 00">("GameManager::Static::Instance");
+		scanner.Add(gameManagerStaticInstance, [this](PointerCalculator ptr) {
+			GameManager = ptr.Add(3).Rip().As<GameManager_c**>();
+		});
+
+		constexpr auto lobbyMgrStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B 90 B8 00 00 00 48 8B 0A 48 85 C9 74 10 8B 53 60">("LobbyManager::Static::Instance");
+		scanner.Add(lobbyMgrStaticInstance, [this](PointerCalculator ptr) {
+			LobbyMgr = ptr.Add(3).Rip().As<LobbyManager_c**>();
+		});
+
+		constexpr auto playerListUi = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B D5 48 89 5C 24 30">("PlayerListUI::Static::Instance");
+		scanner.Add(playerListUi, [this](PointerCalculator ptr) {
+			PlayerListUI = ptr.Add(3).Rip().As<void**>();
+		});
+
+		constexpr auto tmpGetText = Pattern<"40 55 48 83 EC 20 80 B9">("TMP::Text::getText");
+		scanner.Add(tmpGetText, [this](PointerCalculator ptr) {
+			TMP_Text_getText = ptr.Add(3).Rip().As<Functions::TMP_Text_getText>();
+		});
+
 		if (!scanner.Scan())
 		{ 
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
