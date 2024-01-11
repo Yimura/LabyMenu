@@ -14,4 +14,5 @@ namespace YimMenu
         struct System_Collections_Generic_List_SyncObject__o *syncObjects;
         struct Mirror_NetworkIdentity_o *netIdentityCache;
     };
+    static_assert(sizeof(Mirror_NetworkBehaviour_Fields) == 0x48);
 }

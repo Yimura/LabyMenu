@@ -9,8 +9,8 @@ namespace YimMenu
 {
 	namespace Functions
 	{
-		using GetNetworkMgrSingleton = Mirror_NetworkRoomManager_o* (*)(int64_t a1, bool LastSave);
-		using TMP_Text_getText       = String* (*)(TMP_Text_o* this_, const void* method);
+		using GetNetworkMgrSingleton = NetworkRoomManager* (*)(int64_t a1, bool LastSave);
+		using TMP_Text_getText       = String* (*)(TMP_Text* this_, const void* method);
 	};
 
 	struct PointerData

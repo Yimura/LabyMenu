@@ -159,12 +159,12 @@ namespace YimMenu
 
 		constexpr auto gameManagerStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 8B 9E 18 01 00 00">("GameManager::Static::Instance");
 		scanner.Add(gameManagerStaticInstance, [this](PointerCalculator ptr) {
-			GameManager = ptr.Add(3).Rip().As<GameManager_c**>();
+			GameManager = ptr.Add(3).Rip().As<void**>();
 		});
 
 		constexpr auto lobbyMgrStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B 90 B8 00 00 00 48 8B 0A 48 85 C9 74 10 8B 53 60">("LobbyManager::Static::Instance");
 		scanner.Add(lobbyMgrStaticInstance, [this](PointerCalculator ptr) {
-			LobbyMgr = ptr.Add(3).Rip().As<LobbyManager_c**>();
+			LobbyMgr = ptr.Add(3).Rip().As<void**>();
 		});
 
 		constexpr auto playerListUi = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B D5 48 89 5C 24 30">("PlayerListUI::Static::Instance");

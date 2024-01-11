@@ -18,7 +18,8 @@
 
 namespace YimMenu
 {
-	class TMP_Text_Fields : public UnityEngine_UI_MaskableGraphic_Fields
+
+	class TMP_Text : public UnityEngine_UI_MaskableGraphic_Fields
 	{
 	public:
 		String* m_text;
@@ -228,12 +229,5 @@ namespace YimMenu
 		TMP_Text_TextBackingContainer m_TextBackingArray;
 		struct System_Decimal_array* k_Power;
 	};
-	static_assert(sizeof(TMP_Text_Fields) == 0x6E0);
-
-	struct TMP_Text_o
-	{
-		void* klass;
-		void* monitor;
-		TMP_Text_Fields fields;
-	};
+	static_assert(sizeof(TMP_Text) == 0x6F0);
 }

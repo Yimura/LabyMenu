@@ -5,16 +5,16 @@
 
 namespace YimMenu
 {
-	class PlayerListUI_Fields : public UnityEngine_MonoBehaviour_Fields
+	class PlayerListUI_o : public UnityEngine_MonoBehaviour_Fields
 	{
 	public:
-		Array<TMP_Text_o>* playerNameTexts;
+		Array<TMP_Text>* playerNameTexts;
 		struct UnityEngine_UI_Image_array* playerPingIcons;
 		float localPingUpdateInterval;
 		float onlinePingUpdateInterval;
-		Array<TMP_Text_o>* pingText;
-		Array<TMP_Text_o>* livesText;
-		Array<TMP_Text_o>* rndSeedText;
+		Array<TMP_Text>* pingText;
+		Array<TMP_Text>* livesText;
+		Array<TMP_Text>* rndSeedText;
 		struct ConnectionDebugger_o* connectionDebugger;
 		struct UnityEngine_Sprite_array* pingIconsSet;
 		struct UnityEngine_UI_Button_array* kickPlayerButtons;
@@ -22,11 +22,5 @@ namespace YimMenu
 		float onlineTimer;
 		uint8_t localPlayerIndex;
 	};
-
-	struct PlayerListUI_o
-	{
-		void* klass;
-		void* monitor;
-		PlayerListUI_Fields fields;
-	};
+	static_assert(sizeof(PlayerListUI_o) == 0x70);
 }

@@ -14,6 +14,16 @@ namespace YimMenu
 		T* m_Items[65535];
 
 	public:
+		T &operator [] (int i) 
+    	{
+        	return (*m_Items)[i];
+    	}
+
+    	const T &operator [] (int i) const 
+    	{
+        	return (*m_Items)[i];
+    	}
+
 		Iterator<T> begin()
 		{
 			if (this == nullptr || m_Items == nullptr)

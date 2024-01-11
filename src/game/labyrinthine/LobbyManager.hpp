@@ -1,13 +1,17 @@
 #pragma once
+#include "LobbyDummy.hpp"
+#include "TMPro/TMP_Text.hpp"
 #include "UnityEngine/MonoBehaviour.hpp"
+#include "base/Dictionary.hpp"
 #include "il2cpp/il2cpp.hpp"
 
 #include <cstdint>
 
 namespace YimMenu
 {
-	class LobbyManager_Fields : UnityEngine_MonoBehaviour_Fields
+	class LobbyManager_o : public UnityEngine_MonoBehaviour_Fields
 	{
+	public:
 		struct UnityEngine_UI_Button_o* startGameButton;
 		struct ValkoGames_Labyrinthine_UI_HelpUI_o* helpUI;
 		struct UnityEngine_Transform_o* dummyCustomizationPosition;
@@ -44,10 +48,10 @@ namespace YimMenu
 		struct UnityEngine_Animation_o* anim;
 		struct UnityEngine_Transform_o* mainPlayerPos;
 		struct UnityEngine_Transform_array* playerPositions;
-		struct LobbyDummy_o* mainDummy;
-		struct System_Collections_Generic_List_GameObject__o* players;
-		struct System_Collections_Generic_Dictionary_int__LobbyDummy__o* serverAvailablePlayerPositions;
-		struct TMPro_TMP_Text_o* settingsText;
+		LobbyDummy* mainDummy;
+		Array<struct UnityEngine_GameObject_o*>* players;
+		Dictionary<int, LobbyDummy>* serverAvailablePlayerPositions;
+		TMP_Text* settingsText;
 		bool settingsFocused;
 		struct Localisation_LocalisedString_o* settingsFocusedTextLoc;
 		struct UISelector_o* uiSelector;
@@ -58,7 +62,7 @@ namespace YimMenu
 		struct ValkoGames_Labyrinthine_Systems_WorldSpaceUI_WSButton_o* infiniteLivesButton;
 		struct UnityEngine_GameObject_o* infiniteLivesButtonDisabled;
 		struct UnityEngine_GameObject_o* infiniteLivesButtonEnabled;
-		struct TMPro_TMP_Text_o* infiniteLivesText;
+		TMP_Text* infiniteLivesText;
 		float infiniteLivesDisabledAlpha;
 		bool isServer;
 		bool isStoryChapterSelected;
@@ -69,24 +73,5 @@ namespace YimMenu
 		String* settingsTextStr;
 		struct UnityEngine_GameObject_o* lastSelectedUI;
 	};
-
-
-	class LobbyManager_c;
-	class LobbyManager_o
-	{
-	public:
-		LobbyManager_c* klass;
-		void* monitor;
-		LobbyManager_Fields fields;
-	};
-
-	class LobbyManager_c
-	{
-	public:
-		Il2CppClass_1 _1;
-		LobbyManager_o** static_fields;
-		Il2CppRGCTXData* rgctx_data;
-		Il2CppClass_2 _2;
-		void* vtable;
-	};
+	static_assert(sizeof(LobbyManager_o) == 0x1C8);
 }

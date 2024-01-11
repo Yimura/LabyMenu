@@ -1,5 +1,6 @@
 #pragma once
 #include "Mirror/NetworkBehaviour.hpp"
+#include "TMPro/TMP_Text.hpp"
 #include "UnityEngine/Color.hpp"
 #include "UnityEngine/Vector3.hpp"
 
@@ -7,15 +8,16 @@
 
 namespace YimMenu
 {
-	class LobbyDummy_Fields : public Mirror_NetworkBehaviour_Fields
+	class LobbyDummy : public Mirror_NetworkBehaviour_Fields
 	{
+	public:
 		uint32_t maxPurchaseUnixTimeForMaleteen;
-		struct TMPro_TMP_Text_o* username;
+		TMP_Text* username;
 		struct UnityEngine_GameObject_o* kickButton;
 		struct UnityEngine_Transform_o* uiPoint;
 		struct Michsky_UI_Dark_UIDissolveEffect_o* playerUIDissolve;
 		struct UnityEngine_RectTransform_o* playerUIRect;
-		struct TMPro_TMP_Text_o* levelText;
+		TMP_Text* levelText;
 		struct UnityEngine_UI_RawImage_o* playerAvatar;
 		struct UnityEngine_UI_Image_o* playerFrame;
 		Color playerFrameColorDLC;
@@ -41,11 +43,5 @@ namespace YimMenu
 		bool inCustomizationUI;
 		struct UnityEngine_Coroutine_o* steamAvatarCoroutine;
 	};
-
-	struct LobbyDummy_o
-	{
-		void* klass;
-		void* monitor;
-		LobbyDummy_Fields fields;
-	};
+	static_assert(sizeof(LobbyDummy) == 0x130);
 }

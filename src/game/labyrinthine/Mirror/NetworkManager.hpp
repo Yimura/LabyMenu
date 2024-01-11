@@ -8,7 +8,7 @@
 
 namespace YimMenu
 {
-	class Mirror_NetworkManager_Fields : public UnityEngine_MonoBehaviour_Fields
+	class Mirror_NetworkManager_o : public UnityEngine_MonoBehaviour_Fields
 	{
 	public:
 		bool dontDestroyOnLoad;
@@ -34,11 +34,5 @@ namespace YimMenu
 		bool finishStartHostPending;
 		uint8_t clientSceneOperation;
 	};
-
-	struct Mirror_NetworkManager_o
-	{
-		void* klass;
-		void* monitor;
-		Mirror_NetworkManager_Fields fields;
-	};
+	static_assert(sizeof(Mirror_NetworkManager_o) == 0x80);
 }

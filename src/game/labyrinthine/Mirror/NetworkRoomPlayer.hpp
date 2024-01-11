@@ -3,18 +3,12 @@
 
 namespace YimMenu
 {
-    class Mirror_NetworkRoomPlayer_Fields : public Mirror_NetworkBehaviour_Fields
+    class Mirror_NetworkRoomPlayer_o : public Mirror_NetworkBehaviour_Fields
     {
     public:
         bool showRoomGUI;
         bool readyToBegin;
         int32_t index;
     };
-
-    struct Mirror_NetworkRoomPlayer_o
-    {
-        void *klass;
-        void *monitor;
-        Mirror_NetworkRoomPlayer_Fields fields;
-    };
+    static_assert(sizeof(Mirror_NetworkRoomPlayer_o) == 0x50);
 }

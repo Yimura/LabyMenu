@@ -13,7 +13,8 @@
 
 namespace YimMenu
 {
-	class PlayerNetworkSync_Fields : public Mirror_NetworkBehaviour_Fields
+
+	class PlayerNetworkSync_o : public Mirror_NetworkBehaviour_Fields
 	{
 	public:
 		int32_t _ID_k__BackingField;
@@ -37,14 +38,14 @@ namespace YimMenu
 		struct UnityEngine_SkinnedMeshRenderer_array* VR_playerBodyRenderers;
 		struct PlayerNetworkSync_BodyContainer_array* playerBodies;
 		struct UnityEngine_Camera_o* cam;
-		TMP_Text_o* namePlate;
+		TMP_Text* namePlate;
 		struct UnityEngine_Canvas_o* nameplateCanvas;
 		struct UnityEngine_CanvasGroup_o* nameplateCanvasGroup;
 		struct UnityEngine_AnimationCurve_o* nameplateAlphaOverDistance;
 		struct UnityEngine_GameObject_o* audioGO;
 		struct Dissonance_VoiceBroadcastTrigger_o* voiceBroadcastTrigger;
 		struct AnimationHandler_o* animHandler;
-		Death_o* death;
+		Death* death;
 		int32_t _SafezoneType_k__BackingField;
 		struct LightZone_o* _LastSafezone_k__BackingField;
 		bool inWeather;
@@ -92,15 +93,5 @@ namespace YimMenu
 		struct RaycastInfo_o* _LastRaycast_k__BackingField;
 		RaycastHit lastExamineRaycast;
 	};
-	static_assert(sizeof(PlayerNetworkSync_Fields) == 0x280);
-
-	class PlayerNetworkSync_o
-	{
-	private:
-		void* klass;
-		void* monitor;
-
-	public:
-		PlayerNetworkSync_Fields fields;
-	};
+	static_assert(sizeof(PlayerNetworkSync_o) == 0x290);
 }

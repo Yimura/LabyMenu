@@ -6,7 +6,7 @@
 
 namespace YimMenu
 {
-	class Mirror_NetworkRoomManager_Fields : public Mirror_NetworkManager_Fields
+	class NetworkRoomManager : public Mirror_NetworkManager_o
 	{
     public:
 		bool showRoomGUI;
@@ -19,11 +19,5 @@ namespace YimMenu
 		List<Mirror_NetworkRoomPlayer_o>* roomSlots;
 		int32_t clientIndex;
 	};
-
-	struct Mirror_NetworkRoomManager_o
-	{
-		void* klass;
-		void* monitor;
-		Mirror_NetworkRoomManager_Fields fields;
-	};
+	static_assert(sizeof(NetworkRoomManager) == 0xC0);
 }
