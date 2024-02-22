@@ -177,6 +177,11 @@ namespace YimMenu
 			TMP_Text_getText = ptr.Add(3).Rip().As<Functions::TMP_Text_getText>();
 		});
 
+		constexpr auto hasSupporterDlc = Pattern<"B9 00 35 25 00">("HasSupporterDlc");
+		scanner.Add(hasSupporterDlc, [this](PointerCalculator ptr) {
+			HasSupporterDlc = ptr.Sub(2).As<void*>();
+		});
+
 		if (!scanner.Scan())
 		{ 
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

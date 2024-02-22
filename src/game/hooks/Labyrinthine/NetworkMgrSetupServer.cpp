@@ -6,7 +6,7 @@ namespace YimMenu::Hooks
 {
 	void Labyrinthine::NetworkMgrSetupServer(Mirror_NetworkManager_o* this_, const MethodInfo* method)
 	{
-		this_->maxConnections = 8;
+		this_->maxConnections = 16;
 
 		BaseHook::Get<NetworkMgrSetupServer, DetourHook<decltype(&NetworkMgrSetupServer)>>()->Original()(this_, method);
 	}

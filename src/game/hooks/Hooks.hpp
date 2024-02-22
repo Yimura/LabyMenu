@@ -15,6 +15,7 @@ namespace YimMenu::Hooks
 {
 	namespace Labyrinthine
 	{
+		extern bool HasSupporterDlc(const MethodInfo* method);
 		extern void NetworkMgrSetupServer(Mirror_NetworkManager_o* this_, const MethodInfo* method);
 		extern void NetworkManager_OnServerConnectInternal(Mirror_NetworkManager_o* this_, Mirror_NetworkConnection_o* conn, Mirror_ConnectMessage connectMsg, const MethodInfo* method);
 		extern void NetworkManager_OnServerDisconnect(Mirror_NetworkManager_o* this_, Mirror_NetworkConnection_o* conn, const MethodInfo* method);

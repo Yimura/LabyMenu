@@ -27,6 +27,8 @@ namespace YimMenu
 		void* NetworkRoomMgrOnServerConnectInternal;
 		void* NetworkRoomMgrOnServerDisconnect;
 
+		void* HasSupporterDlc;
+
 		SimpleStaticWrapper<GameManager_o> GameManager;
 		SimpleStaticWrapper<LobbyManager_o> LobbyMgr;
 		SimpleStaticWrapper<PlayerListUI_o> PlayerListUI;

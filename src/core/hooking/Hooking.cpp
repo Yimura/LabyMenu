@@ -17,6 +17,8 @@ namespace YimMenu
 		BaseHook::Add<Hooks::SwapChain::ResizeBuffers>(new DetourHook("SwapChain::ResizeBuffers", Pointers.SwapchainVtable[Hooks::SwapChain::VMTResizeBuffersIdx], Hooks::SwapChain::ResizeBuffers));
 
 		BaseHook::Add<Hooks::Labyrinthine::NetworkMgrSetupServer>(new DetourHook("Mirror::NetworkManager::SetupServer", Pointers.NetworkMgrSetupServer, Hooks::Labyrinthine::NetworkMgrSetupServer));
+
+		BaseHook::Add<Hooks::Labyrinthine::HasSupporterDlc>(new DetourHook("HasSupporterDlc", Pointers.HasSupporterDlc, &Hooks::Labyrinthine::HasSupporterDlc));
 	}
 
 	Hooking::~Hooking()
