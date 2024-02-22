@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20.x)
 
-project(LabyMenu VERSION 0.0.1 DESCRIPTION "A new base using new C++ features optimised for speed and ease of use")
+project(version VERSION 0.0.1 DESCRIPTION "A new base using new C++ features optimised for speed and ease of use")
 
 # libs
 include(cmake/async-logger.cmake)
