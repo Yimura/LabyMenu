@@ -6,7 +6,7 @@ namespace YimMenu::Hooks
 {
     HRESULT SwapChain::Present(IDXGISwapChain* this_, UINT sync_interval, UINT flags)
     {
-        if (g_Running)// && ((flags & (UINT)DXGI_PRESENT_TEST) != (UINT)DXGI_PRESENT_TEST))
+        if (g_Running && ((flags & (UINT)DXGI_PRESENT_TEST) != (UINT)DXGI_PRESENT_TEST))
         {
             static auto ensureRendererIsSetup = (Renderer::Init(this_), true);
 
