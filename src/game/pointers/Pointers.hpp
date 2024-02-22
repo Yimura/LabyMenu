@@ -19,19 +19,19 @@ namespace YimMenu
 
 		// functions
 		Functions::GetNetworkMgrSingleton GetNetworkMgrSingleTon;
-		Functions::TMP_Text_getText TMP_Text_getText;
+		// Functions::TMP_Text_getText TMP_Text_getText;
 
 		// hooks
 		void* NetworkMgrSetupServer;
 
-		void* NetworkRoomMgrOnServerConnectInternal;
-		void* NetworkRoomMgrOnServerDisconnect;
+		// void* NetworkRoomMgrOnServerConnectInternal;
+		// void* NetworkRoomMgrOnServerDisconnect;
 
 		void* HasSupporterDlc;
 
-		SimpleStaticWrapper<GameManager_o> GameManager;
+		// SimpleStaticWrapper<GameManager_o> GameManager;
 		SimpleStaticWrapper<LobbyManager_o> LobbyMgr;
-		SimpleStaticWrapper<PlayerListUI_o> PlayerListUI;
+		// SimpleStaticWrapper<PlayerListUI_o> PlayerListUI;
 
 		HWND Hwnd;
 		WNDPROC OgWndProc;
