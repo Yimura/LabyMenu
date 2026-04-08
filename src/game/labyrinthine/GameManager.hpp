@@ -19,5 +19,5 @@ namespace YimMenu
 		bool spawnCryptGates;
 		struct UnityEngine_Transform_o* cryptGateHolder;
 	};
-	static_assert(sizeof(GameManager_o) == 0x58);
+	static_assert(sizeof(GameManager_o) == 0x60);
 }

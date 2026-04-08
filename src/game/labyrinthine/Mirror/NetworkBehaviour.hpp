@@ -6,13 +6,16 @@ namespace YimMenu
     class Mirror_NetworkBehaviour_Fields : public UnityEngine_MonoBehaviour_Fields
     {
     public:
-        float lastSyncTime;
+        int32_t syncDirection;
         int32_t syncMode;
         float syncInterval;
-        uint64_t _syncVarDirtyBits_k__BackingField;
-        uint64_t syncVarHookGuard;
+        double lastSyncTime;
         struct System_Collections_Generic_List_SyncObject__o *syncObjects;
-        struct Mirror_NetworkIdentity_o *netIdentityCache;
+        struct Mirror_NetworkIdentity_o *_netIdentity_k__BackingField;
+        uint8_t _ComponentIndex_k__BackingField;
+        uint64_t syncVarDirtyBits;
+        uint64_t syncObjectDirtyBits;
+        uint64_t syncVarHookGuard;
     };
-    static_assert(sizeof(Mirror_NetworkBehaviour_Fields) == 0x48);
+    static_assert(sizeof(Mirror_NetworkBehaviour_Fields) == 0x68);
 }

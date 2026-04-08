@@ -10,5 +10,8 @@ namespace YimMenu
     { };
 
     class UnityEngine_MonoBehaviour_Fields : public UnityEngine_Behaviour_Fields
-    { };
+    {
+    public:
+        struct System_Threading_CancellationTokenSource_o* m_CancellationTokenSource;
+    };
 }

@@ -10,19 +10,6 @@ namespace YimMenu
 	class Death : public Mirror_NetworkBehaviour_Fields
 	{
 	public:
-        float giveUpTime;
-        float selfReviveTime;
-        struct UIMessagesController_VRInputMessage_o* vrGiveupInputMessage;
-        struct UIMessagesController_VRInputMessage_o* vrSelfreiveInputMessage;
-        struct Death* revivalTarget;
-        bool _IsRespawning_k__BackingField;
-        bool isBeingRevived;
-        double reviveStartTime;
-        double bleedoutStartTime;
-        float giveUpTimer;
-        float selfReviveTimer;
-        float reviveCooldown;
-        float reviveMsgCooldown;
         struct ValkoGames_Labyrinthine_Cases_Inventory_RndInventoryItemSO_o* selfReviveItem;
         struct UnityEngine_CharacterController_o* _ccontroller;
         struct PlayerControl_o* playerControl;
@@ -59,6 +46,20 @@ namespace YimMenu
         struct ValkoGames_Labyrinthine_Players_Death_Inputs_o* inputs;
         bool waitForLeftMouseButtonRelease;
         bool waitForRightMouseButtonRelease;
+        float giveUpTime;
+        float selfReviveTime;
+        struct UIMessagesController_VRInputMessage_o* vrGiveupInputMessage;
+        struct UIMessagesController_VRInputMessage_o* vrSelfreiveInputMessage;
+        struct Death* revivalTarget;
+        bool _IsRespawning_k__BackingField;
+        bool isBeingRevived;
+        double reviveStartTime;
+        double bleedoutStartTime;
+        float giveUpTimer;
+        float selfReviveTimer;
+        float reviveCooldown;
+        float reviveMsgCooldown;
+        struct System_Action_bool__bool__o* _Mirror_SyncVarHookDelegate_isSelfReviveAvailable;
     };
-    static_assert(sizeof(Death) == 0x198);
+    static_assert(sizeof(Death) == 0x1C0);
 }

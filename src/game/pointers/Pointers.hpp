@@ -9,8 +9,7 @@ namespace YimMenu
 {
 	namespace Functions
 	{
-		using GetNetworkMgrSingleton = NetworkRoomManager* (*)(int64_t a1, bool LastSave);
-		using TMP_Text_getText       = String* (*)(TMP_Text* this_, const void* method);
+		using TMP_Text_getText = String* (*)(TMP_Text* this_, const void* method);
 	};
 
 	struct PointerData
@@ -18,7 +17,7 @@ namespace YimMenu
 		std::array<void*, 18> SwapchainVtable;
 
 		// functions
-		Functions::GetNetworkMgrSingleton GetNetworkMgrSingleTon;
+		SimpleStaticWrapper<NetworkRoomManager, 0x10> NetworkRoomManager;
 		// Functions::TMP_Text_getText TMP_Text_getText;
 
 		// hooks

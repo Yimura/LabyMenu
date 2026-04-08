@@ -15,19 +15,20 @@ namespace YimMenu
 		if (ImGui::BeginTabItem("Main"))
 		{
 			ImGui::SeparatorText("LobbyMgr Info:");
-			const auto lobbyMgr = Pointers.LobbyMgr.Get();
-			const auto networkMgr = Pointers.GetNetworkMgrSingleTon(0, 0);
-			if (lobbyMgr && networkMgr && !networkMgr->finishStartHostPending && networkMgr->isNetworkActive)
+			const auto lobbyMgr   = Pointers.LobbyMgr.Get();
+			const auto networkMgr = Pointers.NetworkRoomManager.Get();
+			if (lobbyMgr && networkMgr && !networkMgr->finishStartHostPending && networkMgr->_mode_k__BackingField != 0)
 			{
-				ImGui::Text("Lobby Info:");
-				if (lobbyMgr->mainDummy)
-				{
-					ImGui::Text("Player: %s", lobbyMgr->mainDummy->username->m_text->s().c_str());
-				}
+				// ImGui::Text("Lobby Info:");
+				// if (lobbyMgr->mainDummy)
+				// {
+				// 	ImGui::Text("Player: %s", lobbyMgr->mainDummy->username->m_text->s().c_str());
+				// }
 
 				ImGui::Text("Max Connections: %d", networkMgr->maxConnections);
 			}
-			else ImGui::Text("No active LobbyManager found.");
+			else
+				ImGui::Text("No active LobbyManager found.");
 
 			ImGui::EndTabItem();
 		}

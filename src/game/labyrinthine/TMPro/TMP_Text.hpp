@@ -229,5 +229,5 @@ namespace YimMenu
 		TMP_Text_TextBackingContainer m_TextBackingArray;
 		struct System_Decimal_array* k_Power;
 	};
-	static_assert(sizeof(TMP_Text) == 0x6F0);
+	static_assert(sizeof(TMP_Text) == 0x6F8);
 }

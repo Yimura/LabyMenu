@@ -1,9 +1,7 @@
 #pragma once
-#include "LobbyDummy.hpp"
 #include "TMPro/TMP_Text.hpp"
 #include "UnityEngine/MonoBehaviour.hpp"
-#include "base/Dictionary.hpp"
-#include "il2cpp/il2cpp.hpp"
+#include "base/String.hpp"
 
 #include <cstdint>
 
@@ -18,6 +16,7 @@ namespace YimMenu
 		struct UnityEngine_GameObject_array* rerollTokens;
 		struct ValkoGames_Labyrinthine_UI_HelpPopupWindow_o* _HelpPopupWindow_k__BackingField;
 		struct ValkoGames_Labyrinthine_Scenes_Lobby_NoticeboardUIController_o* noticeboardUIController;
+		struct UnityEngine_GameObject_o* donationPanel;
 		float uiStateTransitionTime;
 		int32_t cameraMoveTweenEase;
 		int32_t cameraRotationTweenEase;
@@ -37,6 +36,7 @@ namespace YimMenu
 		struct OptionsManager_o* optionsManager;
 		struct UnityEngine_Camera_o* mainCamera;
 		bool wasOptionsPanelActive;
+		bool wasSelfModerationPanelActive;
 		float initialCameraFov;
 		bool canSwitchUIState;
 		struct NetworkObjectReferences_o* networkObjectReferences;
@@ -44,34 +44,30 @@ namespace YimMenu
 		struct CharacterCustomization_LobbyFlashlightContainer_o* _FlashlightContainer_k__BackingField;
 		struct ValkoGames_Labyrinthine_Store_StoreUIController_o* _StoreUIController_k__BackingField;
 		struct System_Action_o* OnLobbyStartGame;
-		struct UnityEngine_Camera_o* cam;
 		struct UnityEngine_Animation_o* anim;
 		struct UnityEngine_Transform_o* mainPlayerPos;
 		struct UnityEngine_Transform_array* playerPositions;
-		LobbyDummy* mainDummy;
-		Array<struct UnityEngine_GameObject_o*>* players;
-		Dictionary<int, LobbyDummy>* serverAvailablePlayerPositions;
+		struct LobbyDummy_o* mainDummy;
+		struct System_Collections_Generic_List_LobbyDummy__o* players;
+		struct System_Collections_Generic_Dictionary_int__LobbyDummy__o* serverAvailablePlayerPositions;
 		TMP_Text* settingsText;
 		bool settingsFocused;
 		struct Localisation_LocalisedString_o* settingsFocusedTextLoc;
-		struct UISelector_o* uiSelector;
-		struct UnityEngine_GameObject_o* noticeboardCanvas;
-		struct UnityEngine_GameObject_o* storyCheck;
-		struct UnityEngine_GameObject_o* customCheck;
-		struct UnityEngine_UI_Button_array* buttons;
 		struct ValkoGames_Labyrinthine_Systems_WorldSpaceUI_WSButton_o* infiniteLivesButton;
 		struct UnityEngine_GameObject_o* infiniteLivesButtonDisabled;
 		struct UnityEngine_GameObject_o* infiniteLivesButtonEnabled;
 		TMP_Text* infiniteLivesText;
 		float infiniteLivesDisabledAlpha;
 		bool isServer;
-		bool isStoryChapterSelected;
+		int32_t _SelectedStoryChapterNumber_k__BackingField;
+		bool _AnyLevelSelected_k__BackingField;
 		int32_t lockedChapters;
 		struct Chapter_array* chapters;
 		struct RandomGeneration_Contracts_ContractUI_array* customContracts;
+		struct ValkoGames_Labyrinthine_Scenes_Lobby_LobbyStartGameButtonAnimations_o* lobbyStartGameButtonAnimations;
 		bool canStartGame;
 		String* settingsTextStr;
 		struct UnityEngine_GameObject_o* lastSelectedUI;
 	};
-	static_assert(sizeof(LobbyManager_o) == 0x1C8);
+	static_assert(sizeof(LobbyManager_o) == 0x1B8);
 }

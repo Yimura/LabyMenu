@@ -18,10 +18,12 @@
 	#define IMGUI_DEFINE_MATH_OPERATORS
 #endif // IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
-#include <misc/cpp/imgui_stdlib.h>
 #include <iostream>
 #include <map>
 #include <memory>
+#include <misc/cpp/imgui_stdlib.h>
+#include <ranges>
+#include <span>
 #include <stack>
 #include <string_view>
 #include <thread>

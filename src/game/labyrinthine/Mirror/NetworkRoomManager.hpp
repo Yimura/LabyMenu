@@ -14,10 +14,10 @@ namespace YimMenu
 		Mirror_NetworkRoomPlayer_o* roomPlayerPrefab;
 		String* RoomScene;
 		String* GameplayScene;
-		struct System_Collections_Generic_List_NetworkRoomManager_PendingPlayer__o* pendingPlayers;
+		struct System_Collections_Generic_HashSet_NetworkRoomManager_PendingPlayer__o* pendingPlayers;
 		bool _allPlayersReady;
-		List<Mirror_NetworkRoomPlayer_o>* roomSlots;
+		struct System_Collections_Generic_HashSet_NetworkRoomPlayer__o* roomSlots;
 		int32_t clientIndex;
 	};
-	static_assert(sizeof(NetworkRoomManager) == 0xC0);
+	static_assert(sizeof(NetworkRoomManager) == 0xF0);
 }

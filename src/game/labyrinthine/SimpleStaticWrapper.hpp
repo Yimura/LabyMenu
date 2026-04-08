@@ -13,7 +13,7 @@ namespace YimMenu
 
     };
 
-    template<typename T>
+    template<typename T, size_t FieldOffset = 0>
     class SimpleStaticWrapper
     {
     private:
@@ -35,7 +35,7 @@ namespace YimMenu
             {
                 return nullptr;
             }
-            return *(*m_Internal)->m_Instance;
+            return *reinterpret_cast<T**>(reinterpret_cast<char*>((*m_Internal)->m_Instance) + FieldOffset);
         }
     };
     static_assert(sizeof(SimpleStaticWrapper<int>) == 0x8);

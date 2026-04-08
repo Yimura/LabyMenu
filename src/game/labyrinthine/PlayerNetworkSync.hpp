@@ -7,8 +7,6 @@
 #include "UnityEngine/Quaternion.hpp"
 #include "UnityEngine/RaycastHit.hpp"
 #include "UnityEngine/Vector3.hpp"
-#include "base/String.hpp"
-
 #include <cstdint>
 
 namespace YimMenu
@@ -22,9 +20,7 @@ namespace YimMenu
 		struct System_Collections_Generic_List_Light__o* lanternLightsWithShadows;
 		struct System_ValueTuple_HDAdditionalLightData__float__array* _AllLights_k__BackingField;
 		bool networkReady;
-		struct UnityEngine_GameObject_o* dissonanceVoice;
-		String* playerName;
-		uint64_t _steamID;
+		struct ValkoGames_Labyrinthine_ClientData_o* _ClientData_k__BackingField;
 		LayerMask playerRaycastLayer;
 		struct ValkoGames_Labyrinthine_Players_PlayerFootsteps_o* footsteps;
 		struct ValkoGames_Labyrinthine_VR_Player_VRPlayer_o* _VRPlayer_k__BackingField;
@@ -49,6 +45,7 @@ namespace YimMenu
 		int32_t _SafezoneType_k__BackingField;
 		struct LightZone_o* _LastSafezone_k__BackingField;
 		bool inWeather;
+		bool _AnyDataReceived_k__BackingField;
 		struct UnityEngine_Coroutine_o* allPlayersDeadNoLivesLeftCoroutine;
 		struct Vector3 position;
 		Quaternion rotation;
@@ -78,6 +75,7 @@ namespace YimMenu
 		Nullable<Vector3> _WaterLevelAtPlayerPos_k__BackingField;
 		uint8_t _CurrentBody_k__BackingField;
 		bool _IsCurrentBodyHeadless_k__BackingField;
+		bool _WasPlayerBodySet_k__BackingField;
 		struct Vector3 lastPosition;
 		struct Vector3 lastRemotePosition;
 		struct Quaternion lastRemoteRotation;
@@ -92,6 +90,7 @@ namespace YimMenu
 		struct RaycastInfo_o* _PrevRaycast_k__BackingField;
 		struct RaycastInfo_o* _LastRaycast_k__BackingField;
 		RaycastHit lastExamineRaycast;
+		struct System_Action_bool__bool__o* _Mirror_SyncVarHookDelegate_isDead;
 	};
-	static_assert(sizeof(PlayerNetworkSync_o) == 0x290);
+	static_assert(sizeof(PlayerNetworkSync_o) == 0x2A8);
 }

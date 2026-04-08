@@ -3,30 +3,40 @@
 #include "core/memory/BytePatch.hpp"
 #include "core/memory/ModuleMgr.hpp"
 #include "core/memory/PatternScanner.hpp"
-#include "util/Joaat.hpp"
 #include "core/renderer/Renderer.hpp"
+#include "util/Joaat.hpp"
 
 namespace YimMenu
 {
 	bool GetSwapchainVtableFromFactory()
 	{
 		WNDCLASSEXW windowClass;
-		windowClass.cbSize = sizeof(WNDCLASSEX);
-		windowClass.style = CS_HREDRAW | CS_VREDRAW;
-		windowClass.lpfnWndProc = DefWindowProc;
-		windowClass.cbClsExtra = 0;
-		windowClass.cbWndExtra = 0;
-		windowClass.hInstance = GetModuleHandle(NULL);
-		windowClass.hIcon = NULL;
-		windowClass.hCursor = NULL;
+		windowClass.cbSize        = sizeof(WNDCLASSEX);
+		windowClass.style         = CS_HREDRAW | CS_VREDRAW;
+		windowClass.lpfnWndProc   = DefWindowProc;
+		windowClass.cbClsExtra    = 0;
+		windowClass.cbWndExtra    = 0;
+		windowClass.hInstance     = GetModuleHandle(NULL);
+		windowClass.hIcon         = NULL;
+		windowClass.hCursor       = NULL;
 		windowClass.hbrBackground = NULL;
-		windowClass.lpszMenuName = NULL;
+		windowClass.lpszMenuName  = NULL;
 		windowClass.lpszClassName = L"Yimura";
-		windowClass.hIconSm = NULL;
+		windowClass.hIconSm       = NULL;
 
 		::RegisterClassExW(&windowClass);
 
-		HWND window = ::CreateWindowW(windowClass.lpszClassName, L"LabyMenu", WS_OVERLAPPEDWINDOW, 0, 0, 100, 100, NULL, NULL, windowClass.hInstance, NULL);
+		HWND window = ::CreateWindowW(windowClass.lpszClassName,
+		    L"LabyMenu",
+		    WS_OVERLAPPEDWINDOW,
+		    0,
+		    0,
+		    100,
+		    100,
+		    NULL,
+		    NULL,
+		    windowClass.hInstance,
+		    NULL);
 
 		const auto d3d11 = ModuleMgr::Get("d3d11.dll"_J);
 		if (!d3d11)
@@ -38,19 +48,7 @@ namespace YimMenu
 			return false;
 		}
 
-		auto D3D11CreateDeviceAndSwapChain = d3d11->GetExport<long(*)(
-			IDXGIAdapter*,
-			D3D_DRIVER_TYPE,
-			HMODULE,
-			UINT,
-			const D3D_FEATURE_LEVEL*,
-			UINT,
-			UINT,
-			const DXGI_SWAP_CHAIN_DESC*,
-			IDXGISwapChain**,
-			ID3D11Device**,
-			D3D_FEATURE_LEVEL*,
-			ID3D11DeviceContext**)>("D3D11CreateDeviceAndSwapChain"_J);
+		auto D3D11CreateDeviceAndSwapChain = d3d11->GetExport<long (*)(IDXGIAdapter*, D3D_DRIVER_TYPE, HMODULE, UINT, const D3D_FEATURE_LEVEL*, UINT, UINT, const DXGI_SWAP_CHAIN_DESC*, IDXGISwapChain**, ID3D11Device**, D3D_FEATURE_LEVEL*, ID3D11DeviceContext**)>("D3D11CreateDeviceAndSwapChain"_J);
 		if (!D3D11CreateDeviceAndSwapChain)
 		{
 			LOG(FATAL) << "Failed to grab exported function D3D11CreateDeviceAndSwapChain from d3d11.dll";
@@ -61,33 +59,33 @@ namespace YimMenu
 		}
 
 		D3D_FEATURE_LEVEL featureLevel;
-		const D3D_FEATURE_LEVEL featureLevels[] = { D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_11_0 };
+		const D3D_FEATURE_LEVEL featureLevels[] = {D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_11_0};
 
 		DXGI_RATIONAL refreshRate;
-		refreshRate.Numerator = 60;
+		refreshRate.Numerator   = 60;
 		refreshRate.Denominator = 1;
 
 		DXGI_MODE_DESC bufferDesc;
-		bufferDesc.Width = 100;
-		bufferDesc.Height = 100;
-		bufferDesc.RefreshRate = refreshRate;
-		bufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		bufferDesc.Width            = 100;
+		bufferDesc.Height           = 100;
+		bufferDesc.RefreshRate      = refreshRate;
+		bufferDesc.Format           = DXGI_FORMAT_R8G8B8A8_UNORM;
 		bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+		bufferDesc.Scaling          = DXGI_MODE_SCALING_UNSPECIFIED;
 
 		DXGI_SAMPLE_DESC sampleDesc;
-		sampleDesc.Count = 1;
+		sampleDesc.Count   = 1;
 		sampleDesc.Quality = 0;
 
 		DXGI_SWAP_CHAIN_DESC swapChainDesc;
-		swapChainDesc.BufferDesc = bufferDesc;
-		swapChainDesc.SampleDesc = sampleDesc;
-		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapChainDesc.BufferCount = 1;
+		swapChainDesc.BufferDesc   = bufferDesc;
+		swapChainDesc.SampleDesc   = sampleDesc;
+		swapChainDesc.BufferUsage  = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		swapChainDesc.BufferCount  = 1;
 		swapChainDesc.OutputWindow = window;
-		swapChainDesc.Windowed = 1;
-		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+		swapChainDesc.Windowed     = 1;
+		swapChainDesc.SwapEffect   = DXGI_SWAP_EFFECT_DISCARD;
+		swapChainDesc.Flags        = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 		IDXGISwapChain* swapChain;
 		ID3D11Device* device;
@@ -107,7 +105,8 @@ namespace YimMenu
 		swapChain->Release();
 		swapChain = NULL;
 
-		device->Release();	device = NULL;
+		device->Release();
+		device = NULL;
 
 		context->Release();
 		context = NULL;
@@ -137,14 +136,14 @@ namespace YimMenu
 
 		auto scanner = PatternScanner(main_module);
 
-		// constexpr auto getNetworkMgrSingleTon = Pattern<"E8 ?? ?? ?? ?? 48 85 C0 0F 84 97 03 00 00 48 8B 78 58">("GetNetworkMgrSingleton");
-		// scanner.Add(getNetworkMgrSingleTon, [this](PointerCalculator ptr) {
-		// 	GetNetworkMgrSingleTon = ptr.Add(1).Rip().As<Functions::GetNetworkMgrSingleton>();
-		// });
+		constexpr auto networkRoomMgrStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 89 5C 24 30 48 8B 88 B8 00 00 00 48 8B 49 10 48 85 C9">("NetworkManager::Static::Instance");
+		scanner.Add(networkRoomMgrStaticInstance, [this](PointerCalculator ptr) {
+			NetworkRoomManager = ptr.Add(3).Rip().As<void**>();
+		});
 
-		constexpr auto networkMgrSetupServer = Pattern<"E8 ?? ?? ?? ?? 48 8B 03 48 8B CB 48 8B 90 D0 02 00 00">("Mirror::NetworkManager::SetupServer");
+		constexpr auto networkMgrSetupServer = Pattern<"40 88 78 49 48 8B 05 ?? ?? ?? ?? 48 8B 88 B8 00 00 00">("Mirror::NetworkManager::SetupServer");
 		scanner.Add(networkMgrSetupServer, [this](PointerCalculator ptr) {
-			NetworkMgrSetupServer = ptr.Add(1).Rip().As<void*>();
+			NetworkMgrSetupServer = ptr.Sub(0x99).As<void*>();
 		});
 
 		// constexpr auto networkRoomMgrOnServerConnectInternal = Pattern<"48 8B F9 4C 8B 80 20 04 00 00">("Mirror::NetworkRoomMgr::OnServerConnectInternal");
@@ -162,7 +161,7 @@ namespace YimMenu
 		// 	GameManager = ptr.Add(3).Rip().As<void**>();
 		// });
 
-		constexpr auto lobbyMgrStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B 90 B8 00 00 00 48 8B 0A 48 85 C9 74 10 8B 53 60">("LobbyManager::Static::Instance");
+		constexpr auto lobbyMgrStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 89 5C 24 30 48 8B 90 B8 00 00 00 48 89 3A">("LobbyManager::Static::Instance");
 		scanner.Add(lobbyMgrStaticInstance, [this](PointerCalculator ptr) {
 			LobbyMgr = ptr.Add(3).Rip().As<void**>();
 		});
@@ -183,7 +182,7 @@ namespace YimMenu
 		});
 
 		if (!scanner.Scan())
-		{ 
+		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
 
 			return false;
@@ -191,7 +190,7 @@ namespace YimMenu
 
 		if (Hwnd = FindWindowW(L"UnityWndClass", nullptr); !Hwnd)
 		{
-			LOG(FATAL) << "Failed to grab game window"; 
+			LOG(FATAL) << "Failed to grab game window";
 
 			return false;
 		}
