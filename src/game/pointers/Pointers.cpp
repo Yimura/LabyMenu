@@ -62,25 +62,32 @@ namespace YimMenu
 		// 	NetworkRoomMgrOnServerDisconnect = ptr.Sub(0xA0).As<void*>();
 		// });
 
-		// constexpr auto gameManagerStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 8B 9E 18 01 00 00">("GameManager::Static::Instance");
-		// scanner.Add(gameManagerStaticInstance, [this](PointerCalculator ptr) {
-		// 	GameManager = ptr.Add(3).Rip().As<void**>();
-		// });
+		// PlayerNetworkSync$$OnStartClient: MOV [RAX+0x118],1 then loads GameManager_TypeInfo
+		constexpr auto gameManagerStaticInstance = Pattern<"C7 80 18 01 00 00 01 00 00 00 48 8B 05 ?? ?? ?? ?? 48 8B 88 B8 00 00 00 48 8B 09">("GameManager::Static::Instance");
+		scanner.Add(gameManagerStaticInstance, [this](PointerCalculator ptr) {
+			GameManager = ptr.Add(13).Rip().As<void**>();
+		});
 
 		constexpr auto lobbyMgrStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 89 5C 24 30 48 8B 90 B8 00 00 00 48 89 3A">("LobbyManager::Static::Instance");
 		scanner.Add(lobbyMgrStaticInstance, [this](PointerCalculator ptr) {
 			LobbyMgr = ptr.Add(3).Rip().As<void**>();
 		});
 
-		// constexpr auto playerListUi = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B D5 48 89 5C 24 30">("PlayerListUI::Static::Instance");
-		// scanner.Add(playerListUi, [this](PointerCalculator ptr) {
-		// 	PlayerListUI = ptr.Add(3).Rip().As<void**>();
-		// });
+		constexpr auto playerListUi = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B D5 48 89 5C 24 30">("PlayerListUI::Static::Instance");
+		scanner.Add(playerListUi, [this](PointerCalculator ptr) {
+			PlayerListUI = ptr.Add(3).Rip().As<void**>();
+		});
 
 		// constexpr auto tmpGetText = Pattern<"40 55 48 83 EC 20 80 B9">("TMP::Text::getText");
 		// scanner.Add(tmpGetText, [this](PointerCalculator ptr) {
 		// 	TMP_Text_getText = ptr.Add(3).Rip().As<Functions::TMP_Text_getText>();
 		// });
+
+		// PlayerListUI$$ServerKickPlayer: unique CMP BL,[RDI+0x60] checking localPlayerIndex
+		constexpr auto serverKickPlayer = Pattern<"80 78 39 00 74 ?? 3A 5F 60 74 ??">("PlayerListUI::ServerKickPlayer");
+		scanner.Add(serverKickPlayer, [this](PointerCalculator ptr) {
+			ServerKickPlayer = ptr.Sub(0x93).As<Functions::PlayerListUI_ServerKickPlayer>();
+		});
 
 		constexpr auto hasSupporterDlc = Pattern<"B9 00 35 25 00">("HasSupporterDlc");
 		scanner.Add(hasSupporterDlc, [this](PointerCalculator ptr) {
