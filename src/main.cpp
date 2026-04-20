@@ -56,6 +56,7 @@ namespace YimMenu
 		Hooking::Init();
 		GUI::Init();
 
+		LOG(INFO) << "LabyMenu finished initializing!";
 	idle:
 		while (g_Running)
 		{
