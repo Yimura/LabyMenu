@@ -47,7 +47,7 @@ namespace YimMenu
 		struct UnityEngine_Animation_o* anim;
 		struct UnityEngine_Transform_o* mainPlayerPos;
 		struct UnityEngine_Transform_array* playerPositions;
-		struct LobbyDummy_o* mainDummy;
+		class LobbyDummy* mainDummy;
 		struct System_Collections_Generic_List_LobbyDummy__o* players;
 		struct System_Collections_Generic_Dictionary_int__LobbyDummy__o* serverAvailablePlayerPositions;
 		TMP_Text* settingsText;

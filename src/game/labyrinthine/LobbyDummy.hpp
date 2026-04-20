@@ -11,6 +11,21 @@ namespace YimMenu
 	class LobbyDummy : public Mirror_NetworkBehaviour_Fields
 	{
 	public:
+		// Mirrors PlayerSave::GetLevel — converts raw XP to level.
+		// Each level N costs (N + 5) * 10 XP.
+		static uint16_t GetLevel(int32_t experience)
+		{
+			uint16_t level = 1;
+			while (level < 9999)
+			{
+				experience -= (level + 5) * 10;
+				if (experience < 1)
+					break;
+				level++;
+			}
+			return level;
+		}
+
 		uint32_t maxPurchaseUnixTimeForMaleteen;
 		TMP_Text* username;
 		TMP_Text* platformIndicator;
