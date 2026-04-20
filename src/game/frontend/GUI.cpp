@@ -20,6 +20,9 @@ namespace YimMenu
 
 	void GUI::ToggleMouse()
 	{
+		if (!ImGui::GetCurrentContext())
+			return;
+
 		auto& io           = ImGui::GetIO();
 		io.MouseDrawCursor = GUI::IsOpen();
 		GUI::IsOpen() ? io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse : io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
