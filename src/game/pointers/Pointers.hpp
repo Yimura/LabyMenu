@@ -1,5 +1,6 @@
 #pragma once
 #include "game/labyrinthine/GameManager.hpp"
+#include "game/labyrinthine/GfxDeviceDX11.hpp"
 #include "game/labyrinthine/LobbyManager.hpp"
 #include "game/labyrinthine/Mirror/NetworkRoomManager.hpp"
 #include "game/labyrinthine/PlayerListUI.hpp"
@@ -14,7 +15,7 @@ namespace YimMenu
 
 	struct PointerData
 	{
-		std::array<void*, 18> SwapchainVtable;
+		GfxDeviceDX11** GfxDeviceDX11;
 
 		// functions
 		SimpleStaticWrapper<NetworkRoomManager, 0x10> NetworkRoomManager;

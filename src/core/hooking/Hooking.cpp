@@ -13,8 +13,12 @@ namespace YimMenu
 	{
 		// BaseHook::Add<Hooks::Window::WndProc>(new DetourHook("WndProc", Pointers.WndProc, Hooks::Window::WndProc));
 
-		BaseHook::Add<Hooks::SwapChain::Present>(new DetourHook("SwapChain::Present", Pointers.SwapchainVtable[Hooks::SwapChain::VMTPresentIdx], Hooks::SwapChain::Present));
-		BaseHook::Add<Hooks::SwapChain::ResizeBuffers>(new DetourHook("SwapChain::ResizeBuffers", Pointers.SwapchainVtable[Hooks::SwapChain::VMTResizeBuffersIdx], Hooks::SwapChain::ResizeBuffers));
+		while (!*Pointers.GfxDeviceDX11 || !(*Pointers.GfxDeviceDX11)->m_pSwapChain)
+			std::this_thread::sleep_for(100ms);
+
+		auto* pSwapChain = (*Pointers.GfxDeviceDX11)->m_pSwapChain;
+		BaseHook::Add<Hooks::SwapChain::Present>(new DetourHook("SwapChain::Present", GetVF(pSwapChain, Hooks::SwapChain::VMTPresentIdx), Hooks::SwapChain::Present));
+		BaseHook::Add<Hooks::SwapChain::ResizeBuffers>(new DetourHook("SwapChain::ResizeBuffers", GetVF(pSwapChain, Hooks::SwapChain::VMTResizeBuffersIdx), Hooks::SwapChain::ResizeBuffers));
 
 		BaseHook::Add<Hooks::Labyrinthine::NetworkMgrSetupServer>(new DetourHook("Mirror::NetworkManager::SetupServer", Pointers.NetworkMgrSetupServer, Hooks::Labyrinthine::NetworkMgrSetupServer));
 
