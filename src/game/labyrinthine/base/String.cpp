@@ -1,34 +1,37 @@
 #include "String.hpp"
 
-#include "StringCache.hpp"
-
-#include <codecvt>
-#include <locale>
+#include <Windows.h>
 
 namespace YimMenu
 {
 	bool String::IsEmpty() const
 	{
-		return !this || m_StringLength == 0 || m_StringLength > 1024 || m_Data == '\0';
+		return reinterpret_cast<std::uintptr_t>(this) < 0x10000
+			|| m_StringLength <= 0
+			|| m_StringLength > 1024;
 	}
 
-	const std::string& String::s() const
+	std::string String::str() const
 	{
-		return g_StringCache.Get(this);
+		if (IsEmpty())
+			return "unknown";
+
+		// Use WideCharToMultiByte for reliable UTF-16 -> UTF-8 conversion
+		// bounded by m_StringLength (no null-terminator dependency)
+		int size = WideCharToMultiByte(
+			CP_UTF8, 0,
+			reinterpret_cast<const wchar_t*>(&m_FirstChar), m_StringLength,
+			nullptr, 0, nullptr, nullptr);
+
+		if (size <= 0)
+			return "unknown";
+
+		std::string result(size, '\0');
+		WideCharToMultiByte(
+			CP_UTF8, 0,
+			reinterpret_cast<const wchar_t*>(&m_FirstChar), m_StringLength,
+			result.data(), size, nullptr, nullptr);
+
+		return result;
 	}
-    
-	std::string String::GetUnicodeString() const
-    {
-        if (IsEmpty())
-        {
-            static std::string UnkStr("unknown");
-            return UnkStr;
-        }
-
-        std::u16string source(&m_Data);
-        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
-        std::string dest = convert.to_bytes(source);   
-
-        return dest;
-    }
 }

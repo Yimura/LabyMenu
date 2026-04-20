@@ -2,6 +2,8 @@
 #include "../il2cpp/il2cpp.hpp"
 #include "Iterator.hpp"
 
+#include <cassert>
+
 namespace YimMenu
 {
 	template<typename T>
@@ -14,15 +16,17 @@ namespace YimMenu
 		T* m_Items[65535];
 
 	public:
-		T &operator [] (int i) 
-    	{
-        	return (*m_Items)[i];
-    	}
+		T& operator[](int i)
+		{
+			assert(this && m_Items && i >= 0 && static_cast<std::size_t>(i) < m_ItemCount);
+			return (*m_Items)[i];
+		}
 
-    	const T &operator [] (int i) const 
-    	{
-        	return (*m_Items)[i];
-    	}
+		const T& operator[](int i) const
+		{
+			assert(this && m_Items && i >= 0 && static_cast<std::size_t>(i) < m_ItemCount);
+			return (*m_Items)[i];
+		}
 
 		Iterator<T> begin()
 		{
@@ -46,7 +50,7 @@ namespace YimMenu
 		{
 			if (this == nullptr || m_Items == nullptr)
 			{
-				return Iterator<T>(nullptr);
+				return nullptr;
 			}
 			return *m_Items;
 		}

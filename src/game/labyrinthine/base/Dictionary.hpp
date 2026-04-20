@@ -18,26 +18,14 @@ namespace YimMenu
             m_Dictionary(reinterpret_cast<decltype(m_Dictionary)>(dictionary))
         {}
 
-        K operator[](int i)
+        K operator[](int i) const
         {
-            auto entries = m_Dictionary->m_Entries;
-            if (!entries)
-                return K();
-            return (*entries)[i].key;
+            if (auto* entries = m_Dictionary->m_Entries)
+                return (*entries)[i].key;
+            return K();
         }
 
-        const K operator[](int i) const
-        {
-            auto entries = m_Dictionary->m_Entries;
-            if (!entries)
-                return K();
-            return (*entries)[i].key;
-        }
-
-        int Count()
-        {
-            return m_Dictionary->Count();
-        }
+        int Count() const { return m_Dictionary->Count(); }
     };
 
     template<typename T>
@@ -52,26 +40,14 @@ namespace YimMenu
             m_Dictionary(reinterpret_cast<decltype(m_Dictionary)>(dictionary))
         {}
 
-        T operator[](int i)
+        T operator[](int i) const
         {
-            auto entries = m_Dictionary->m_Entries;
-            if (!entries)
-                return T();
-            return (*entries)[i].value;
+            if (auto* entries = m_Dictionary->m_Entries)
+                return (*entries)[i].value;
+            return T();
         }
 
-        const T operator[](int i) const
-        {
-            auto entries = m_Dictionary->m_Entries;
-            if (!entries)
-                return T();
-            return (*entries)[i].value;
-        }
-
-        int Count() const
-        {
-            return m_Dictionary->Count();
-        }
+        int Count() const { return m_Dictionary->Count(); }
     };
 
 	template<typename K, typename T>
@@ -144,6 +120,8 @@ namespace YimMenu
 
 		int FindEntry(K key)
 		{
+			if (!m_Entries)
+				return -1;
 			for (int i = 0; i < m_Count; i++)
 			{
 				if ((*m_Entries)[i].key == key)
@@ -159,6 +137,8 @@ namespace YimMenu
 
 		bool ContainsValue(T value)
 		{
+			if (!m_Entries)
+				return false;
 			for (int i = 0; i < m_Count; i++)
 			{
 				if ((*m_Entries)[i].hashCode >= 0 && (*m_Entries)[i].value == value)
