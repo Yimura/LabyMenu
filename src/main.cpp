@@ -3,6 +3,7 @@
 #include "core/hooking/Hooking.hpp"
 #include "core/memory/ModuleMgr.hpp"
 #include "core/renderer/Renderer.hpp"
+#include "game/features/MonsterAwareness/MonsterAwareness.hpp"
 #include "game/frontend/GUI.hpp"
 #include "game/pointers/Pointers.hpp"
 
@@ -55,6 +56,7 @@ namespace YimMenu
 
 		Hooking::Init();
 		GUI::Init();
+		MonsterAwareness::Init();
 
 		LOG(INFO) << "LabyMenu finished initializing!";
 	idle:

@@ -1,6 +1,7 @@
 #include "Menu.hpp"
 
 #include "core/renderer/Renderer.hpp"
+#include "game/features/MonsterAwareness/MonsterAwareness.hpp"
 #include "game/labyrinthine/ClientData.hpp"
 #include "game/labyrinthine/LobbyDummy.hpp"
 #include "game/labyrinthine/PlayerListUI.hpp"
@@ -130,6 +131,7 @@ namespace YimMenu
 		{
 			ImGui::BeginTabBar("Main");
 			DrawMainTab();
+			MonsterAwareness::DrawSettingsTab();
 			ImGui::EndTabBar();
 
 			ImGui::Separator();

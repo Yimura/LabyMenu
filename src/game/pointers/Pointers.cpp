@@ -89,6 +89,32 @@ namespace YimMenu
 			ServerKickPlayer = ptr.Sub(0x93).As<Functions::PlayerListUI_ServerKickPlayer>();
 		});
 
+		// AIManager$$GetAIControllers (parameterized): unique because it accesses
+		// the aiControllers Dictionary at instance+0x40 (specific to AIManager).
+		constexpr auto aiManagerStaticInstance = Pattern<"48 8B 05 ?? ?? ?? ?? 48 8B 88 B8 00 00 00 48 8B 01 48 85 C0 74 ?? 48 8B 48 40">("AIManager::Static::Instance");
+		scanner.Add(aiManagerStaticInstance, [this](PointerCalculator ptr) {
+			AIManager = ptr.Add(3).Rip().As<void**>();
+		});
+
+		// PlayerNetworkSync$$OnStartClient: reload of TypeInfo into RCX, +0xB8
+		// deref, then write barrier, then read of __this->fields field at 0x108
+		// (specific PNS field offset).
+		constexpr auto playerNetworkSyncStaticInstance = Pattern<"48 8B 0D ?? ?? ?? ?? 48 8B 89 B8 00 00 00 E8 ?? ?? ?? ?? 48 8B 8F 08 01 00 00 48 85 C9">("PlayerNetworkSync::Static::Instance");
+		scanner.Add(playerNetworkSyncStaticInstance, [this](PointerCalculator ptr) {
+			LocalPlayer = ptr.Add(3).Rip().As<void**>();
+		});
+
+		// AIManager$$OnMonsterSpawned: a unique back-to-back call sequence to
+		// Component.get_transform then Transform.get_position. Both helpers are
+		// otherwise unpattern-scannable on their own (every Unity accessor
+		// shares the same prologue+icall-cache shape). Resolves both function
+		// addresses from this one anchor.
+		constexpr auto componentTransformPositionCalls = Pattern<"48 85 DB 0F 84 ?? ?? ?? ?? 33 D2 48 8B CB E8 ?? ?? ?? ?? 48 85 C0 0F 84 ?? ?? ?? ?? 45 33 C0 48 8D 4C 24 38 48 8B D0 E8 ?? ?? ?? ??">("Component::get_transform + Transform::get_position");
+		scanner.Add(componentTransformPositionCalls, [this](PointerCalculator ptr) {
+			Component_get_transform = ptr.Add(15).Rip().As<Functions::Component_get_transform>();
+			Transform_get_position  = ptr.Add(40).Rip().As<Functions::Transform_get_position>();
+		});
+
 		constexpr auto hasSupporterDlc = Pattern<"B9 00 35 25 00">("HasSupporterDlc");
 		scanner.Add(hasSupporterDlc, [this](PointerCalculator ptr) {
 			HasSupporterDlc = ptr.Sub(2).As<void*>();
