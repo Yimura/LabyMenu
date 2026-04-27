@@ -2,81 +2,41 @@
 
 #include "StackTrace.hpp"
 
-#include <hde64.h>
-#include <unordered_set>
-
 namespace YimMenu
 {
-	inline auto HashStackTrace(std::vector<uint64_t> stack_trace)
-	{
-		auto data        = reinterpret_cast<const char*>(stack_trace.data());
-		std::size_t size = stack_trace.size() * sizeof(uint64_t);
-
-		return std::hash<std::string_view>()({data, size});
-	}
+	// Unity's filter, captured when we install ours. We chain to it after logging so
+	// UnityCrashHandler64.exe still gets to write its minidump and show the crash UI.
+	static LPTOP_LEVEL_EXCEPTION_FILTER g_PreviousFilter = nullptr;
 
 	ExceptionHandler::ExceptionHandler()
 	{
 		LOG(INFO) << "ExceptionHandler initialized";
-		m_OldErrorMode = SetErrorMode(0);
-		m_Handler      = AddVectoredExceptionHandler(0, &VectoredExceptionHandler);
+		m_OldErrorMode   = SetErrorMode(0);
+		m_Handler        = SetUnhandledExceptionFilter(&UnhandledExceptionHandler);
+		g_PreviousFilter = m_Handler;
 	}
 
 	ExceptionHandler::~ExceptionHandler()
 	{
 		SetErrorMode(m_OldErrorMode);
-		SetUnhandledExceptionFilter(reinterpret_cast<decltype(&VectoredExceptionHandler)>(m_Handler));
+		SetUnhandledExceptionFilter(m_Handler);
+		g_PreviousFilter = nullptr;
 	}
 
-	inline static StackTrace trace;
-	LONG VectoredExceptionHandler(EXCEPTION_POINTERS* exception_info)
+	LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_info)
 	{
-		const auto exception_code = exception_info->ExceptionRecord->ExceptionCode;
-		if (exception_code == EXCEPTION_BREAKPOINT || exception_code == DBG_PRINTEXCEPTION_C || exception_code == DBG_PRINTEXCEPTION_WIDE_C)
+		const auto code = exception_info->ExceptionRecord->ExceptionCode;
+		if (code == EXCEPTION_BREAKPOINT || code == DBG_PRINTEXCEPTION_C || code == DBG_PRINTEXCEPTION_WIDE_C)
 			return EXCEPTION_CONTINUE_SEARCH;
 
-		static std::unordered_set<std::size_t> logged_exceptions;
-
+		static StackTrace trace;
 		trace.NewStackTrace(exception_info);
-		const auto trace_hash = HashStackTrace(trace.GetFramePointers());
-		if (const auto it = logged_exceptions.find(trace_hash); it == logged_exceptions.end())
-		{
-			LOG(FATAL) << trace;
-			Logger::FlushQueue();
+		LOG(FATAL) << trace;
+		Logger::FlushQueue();
 
-			logged_exceptions.insert(trace_hash);
-		}
+		if (g_PreviousFilter)
+			return g_PreviousFilter(exception_info);
 
-		if (IsBadReadPtr(reinterpret_cast<void*>(exception_info->ContextRecord->Rip), 8))
-		{
-			auto return_address_ptr = (uint64_t*)exception_info->ContextRecord->Rsp;
-			if (IsBadReadPtr(reinterpret_cast<void*>(return_address_ptr), 8))
-			{
-				LOG(FATAL) << "Cannot resume execution, crashing";
-				return EXCEPTION_CONTINUE_SEARCH;
-			}
-			else
-			{
-				exception_info->ContextRecord->Rip = *return_address_ptr;
-				exception_info->ContextRecord->Rsp += 8;
-			}
-		}
-		else
-		{
-			hde64s opcode{};
-			hde64_disasm(reinterpret_cast<void*>(exception_info->ContextRecord->Rip), &opcode);
-			if (opcode.flags & F_ERROR)
-			{
-				LOG(FATAL) << "Cannot resume execution, crashing";
-				return EXCEPTION_CONTINUE_SEARCH;
-			}
-			exception_info->ContextRecord->Rip += opcode.len;
-		}
-
-		return EXCEPTION_CONTINUE_EXECUTION;
+		return EXCEPTION_CONTINUE_SEARCH;
 	}
 }
-
-//static YimMenu::ExceptionHandler _ExceptionHandler{};
-// 48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 20 33 DB 44 0F
-//

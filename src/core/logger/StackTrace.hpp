@@ -35,7 +35,6 @@ namespace YimMenu
 
 	private:
 		void DumpModuleInfo();
-		void DumpRegisters();
 		void DumpStacktrace();
 		void DumpCPPExceptionInfo();
 		void GrabStacktrace();

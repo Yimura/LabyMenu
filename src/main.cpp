@@ -1,6 +1,7 @@
 #include "common.hpp"
 #include "core/filemgr/FileMgr.hpp"
 #include "core/hooking/Hooking.hpp"
+#include "core/logger/ExceptionHandler.hpp"
 #include "core/memory/ModuleMgr.hpp"
 #include "core/renderer/Renderer.hpp"
 #include "game/features/MonsterAwareness/MonsterAwareness.hpp"
@@ -32,6 +33,10 @@ namespace YimMenu
 		FileMgr::Init(documents / "LabyMenu");
 
 		LogHelper::Init("LabyMenu", FileMgr::GetProjectFile("./cout.log"));
+
+		// Unity's SetUnhandledExceptionFilter has already run during its WinMain by the time
+		// we're here, so installing now captures Unity's filter as our chain target.
+		ExceptionHandler exception_handler{};
 
 		LOG(INFO) << "Waiting for Labyrinthine to start.";
 		constexpr auto wait_limit = 60;

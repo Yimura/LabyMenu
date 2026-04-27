@@ -7,12 +7,17 @@ namespace YimMenu
 	StackTrace::StackTrace() :
 	    m_FramePointers(32)
 	{
-		SymInitialize(GetCurrentProcess(), nullptr, true);
+		// IL2CPP (GameAssembly.dll) calls SymInitialize for its own native stack capture,
+		// so ours can return FALSE if it got there first. Refresh the module list so
+		// modules loaded after IL2CPP's init (including ours) get covered.
+		if (!SymInitialize(GetCurrentProcess(), nullptr, TRUE))
+			SymRefreshModuleList(GetCurrentProcess());
 	}
 
 	StackTrace::~StackTrace()
 	{
-		SymCleanup(GetCurrentProcess());
+		// Intentionally no SymCleanup — DbgHelp state is shared with IL2CPP and
+		// tearing it down on DLL unload would crash IL2CPP's own stack-trace path.
 	}
 
 	const std::vector<uint64_t>& StackTrace::GetFramePointers()
@@ -30,7 +35,6 @@ namespace YimMenu
 		m_Dump << ExceptionCodeToString(exception_info->ExceptionRecord->ExceptionCode) << '\n';
 
 		DumpModuleInfo();
-		DumpRegisters();
 		DumpStacktrace();
 		DumpCPPExceptionInfo();
 
@@ -77,29 +81,6 @@ namespace YimMenu
 				m_Modules.emplace_back(std::move(mod_info));
 			}
 		}
-	}
-
-	void StackTrace::DumpRegisters()
-	{
-		const auto context = m_ExceptionInfo->ContextRecord;
-
-		m_Dump << "Dumping registers:\n"
-		       << "RAX: " << HEX(context->Rax) << '\n'
-		       << "RCX: " << HEX(context->Rcx) << '\n'
-		       << "RDX: " << HEX(context->Rdx) << '\n'
-		       << "RBX: " << HEX(context->Rbx) << '\n'
-		       << "RSI: " << HEX(context->Rsi) << '\n'
-		       << "RDI: " << HEX(context->Rdi) << '\n'
-		       << "RSP: " << HEX(context->Rsp) << '\n'
-		       << "RBP: " << HEX(context->Rbp) << '\n'
-		       << "R8:  " << HEX(context->R8) << '\n'
-		       << "R9:  " << HEX(context->R9) << '\n'
-		       << "R10: " << HEX(context->R10) << '\n'
-		       << "R11: " << HEX(context->R11) << '\n'
-		       << "R12: " << HEX(context->R12) << '\n'
-		       << "R13: " << HEX(context->R13) << '\n'
-		       << "R14: " << HEX(context->R14) << '\n'
-		       << "R15: " << HEX(context->R15) << '\n';
 	}
 
 	void StackTrace::DumpStacktrace()

@@ -9,9 +9,9 @@ namespace YimMenu
 		virtual ~ExceptionHandler();
 
 	private:
-		void* m_Handler;
+		LPTOP_LEVEL_EXCEPTION_FILTER m_Handler;
 		uint32_t m_OldErrorMode;
 	};
 
-	extern LONG VectoredExceptionHandler(EXCEPTION_POINTERS* exception_info);
+	extern LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_info);
 }
