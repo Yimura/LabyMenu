@@ -1,5 +1,6 @@
 #pragma once
 #include "base/String.hpp"
+#include "il2cpp/il2cpp.hpp"
 
 #include <cstdint>
 
@@ -34,4 +35,26 @@ namespace YimMenu
 	};
 	static_assert(offsetof(ClientData_o, fields) == 0x10);
 	static_assert(offsetof(ClientData_Fields, _Name_k__BackingField) == 0x08);
+
+	// Comments above each slot preserve the dump's original `_N_Name` form.
+	struct ClientData_VTable
+	{
+		// _0_Equals
+		VTableSlot<bool(Il2CppObject*)>     Equals;
+		// _1_Finalize
+		VTableSlot<void()>                  Finalize;
+		// _2_GetHashCode
+		VTableSlot<int32_t()>               GetHashCode;
+		// _3_ToString
+		VTableSlot<System_String_o*()>      ToString;
+	};
+
+	struct ClientData_c
+	{
+		Il2CppClass_1 _1;
+		void* static_fields;
+		Il2CppRGCTXData* rgctx_data;
+		Il2CppClass_2 _2;
+		ClientData_VTable vtable;
+	};
 }
